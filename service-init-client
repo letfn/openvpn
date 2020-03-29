@@ -1,0 +1,13 @@
+#!/usr/bin/env expect
+
+set timeout 600
+
+spawn easyrsa build-client-full client nopass
+
+expect {
+  "pass phrase" {
+    send "this-is-password\r"
+  }
+}
+
+expect eof

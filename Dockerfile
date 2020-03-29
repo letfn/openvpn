@@ -1,5 +1,11 @@
-FROM letfn/container
+FROM kylemanna/openvpn
 
-COPY plugin /plugin
+RUN apk add expect perl
 
-ENTRYPOINT [ "/tini", "--", "/plugin" ]
+COPY service-* /
+
+COPY service /service
+
+ENTRYPOINT [ "/service" ]
+
+CMD [ ]

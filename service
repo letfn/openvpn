@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+function main {
+  set -x
+
+
+  if [[ "$#" -gt  0 ]]; then
+    exec "$@"
+  fi
+
+  cd /etc/openvpn
+
+  if [[ ! -f openvpn.conf || ! -f ovpn_env.sh ]]; then
+    rm -f ovpn_env.sh openvpn.conf
+    ovpn_genconfig -u tcp://127.0.0.1
+    perl -pe 's{^(push\s+.*)}{#\1}' -i openvpn.conf
+  fi
+
+  if [[ ! -d pki ]]; then
+    /service-init-pki
+  fi
+
+  if [[ ! -f kitt.ovpn ]]; then
+    /service-init-client
+    ovpn_getclient client combined > kitt.ovpn
+    perl -pe 's{^(redirect-gateway.*)}{#\1}' -i kitt.ovpn
+    perl -pe 's{^remote\s+.*}{remote 127.0.0.1 1194 tcp\n}' -i kitt.ovpn
+    (
+      echo
+      echo compress
+      echo comp-lzo no
+    ) >> kitt.ovpn
+  fi
+  
+  exec ovpn_run
+}
+
+main "$@"
