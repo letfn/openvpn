@@ -11,8 +11,6 @@ function main {
 
   {
     ovpn_getclient "${nm_account}" combined
-    echo compress
-    echo comp-lzo no
     echo redirect-gateway !ipv4
   } > "${nm_account}.ovpn"
 
