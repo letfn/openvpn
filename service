@@ -14,6 +14,15 @@ function main {
     rm -f ovpn_env.sh openvpn.conf
     ovpn_genconfig -u tcp://169.254.1.1
     perl -pe 's{^(push\s+.*)}{#\1}' -i openvpn.conf
+
+    (
+      echo compress
+      echo comp-lzo no
+
+      push "dhcp-option DNS 169.254.1.1"
+      push "dhcp-option DOMAIN-SEARCH default.svc.cluster.local"
+      push "dhcp-option DOMAIN-SEARCH svc.cluster.local"
+    ) >> openvpn.conf
   fi
 
   if [[ ! -d pki ]]; then
