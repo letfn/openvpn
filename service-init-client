@@ -1,13 +1,25 @@
-#!/usr/bin/env expect
+#!/usr/bin/env bash
 
-set timeout 600
+function main {
+  local nm_account="$1"; shift
 
-spawn easyrsa build-client-full client nopass
+  set -exfu
 
-expect {
-  "pass phrase" {
-    send "this-is-password\r"
-  }
+  cd /etc/openvpn
+
+  "$0.expect" "${nm_account}" "$@"
+
+  {
+    ovpn_getclient "${nm_account}" combined
+    echo compress
+    echo comp-lzo no
+    echo redirect-gateway !ipv4
+  } > "${nm_account}.ovpn"
+
+  mkdir -p ccd
+  {
+    echo "push \"route 172.17.0.0 255.255.0.0\""
+  } > "ccd/${nm_account}"
 }
 
-expect eof
+main "$@"
