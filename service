@@ -11,6 +11,10 @@ function main {
 
   if [[ ! -f openvpn.conf || ! -f ovpn_env.sh ]]; then
     /service-init-openvpn
+
+    ip_dns="$(host pihole | grep 'has address'  | awk '{print $NF}')"
+
+    perl -pe "s{dhcp-option DNS \d+\.\d+\.\d+\.\d+}{dhcp-option DNS ${ip_dns}}" -i /etc/openvpn/openvpn.conf
   fi
 
   if [[ ! -d pki ]]; then

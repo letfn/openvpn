@@ -1,6 +1,6 @@
 FROM kylemanna/openvpn
 
-RUN apk add expect perl
+RUN apk add expect perl bind-utils
 
 COPY service-* /
 
