@@ -12,6 +12,7 @@ function main {
     echo "push \"comp-lzo no\""
 
     echo "push \"dhcp-option DNS 169.254.1.1\""
+    echo "push \"dhcp-option DOMAIN-SEARCH traefik.svc.cluster.local\""
     echo "push \"dhcp-option DOMAIN-SEARCH kube-system.svc.cluster.local\""
     echo "push \"dhcp-option DOMAIN-SEARCH default.svc.cluster.local\""
   ) >> openvpn.conf
