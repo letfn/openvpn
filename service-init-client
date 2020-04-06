@@ -9,10 +9,7 @@ function main {
 
   "$0.expect" "${nm_account}" "$@"
 
-  {
-    ovpn_getclient "${nm_account}" combined
-    echo redirect-gateway !ipv4
-  } > "${nm_account}.ovpn"
+  ovpn_getclient "${nm_account}" combined | grep -v redirect-gateway > "${nm_account}.ovpn"
 
   mkdir -p ccd
   {
