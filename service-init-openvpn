@@ -3,7 +3,7 @@
 function main {
   rm -f ovpn_env.sh openvpn.conf
 
-  ovpn_genconfig -u tcp://169.254.1.1
+  ovpn_genconfig -u tcp://169.254.32.1
 
   perl -pe 's{^(#*\s*push\s+.*)$}{}i' -i openvpn.conf
 
@@ -11,10 +11,8 @@ function main {
     echo comp-lzo no
     echo "push \"comp-lzo no\""
 
-    echo "push \"dhcp-option DNS 169.254.1.1\""
-    echo "push \"dhcp-option DOMAIN-SEARCH traefik.svc.cluster.local\""
-    echo "push \"dhcp-option DOMAIN-SEARCH kube-system.svc.cluster.local\""
-    echo "push \"dhcp-option DOMAIN-SEARCH default.svc.cluster.local\""
+    echo "push \"dhcp-option DNS 169.254.32.1\""
+    echo "push \"dhcp-option DOMAIN-SEARCH service.dc1.consul\""
   ) >> openvpn.conf
 }
 
