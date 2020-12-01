@@ -12,8 +12,7 @@ function main {
   ovpn_getclient "${nm_account}" combined | grep -v redirect-gateway > "${nm_account}.ovpn"
 
   mkdir -p ccd
-  {
-  } > "ccd/${nm_account}"
+  touch "ccd/${nm_account}"
 }
 
 main "$@"
