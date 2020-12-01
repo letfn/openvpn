@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  openvpn:
+    image: defn/openvpn
+    env_file: .env
+    cap_add:
+    - NET_ADMIN
+    ports:
+    - 127.0.0.1:1194:1194
+    volumes:
+    - ./etc/openvpn:/etc/openvpn
+    restart: always

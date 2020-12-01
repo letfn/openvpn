@@ -3,7 +3,7 @@
 function main {
   rm -f ovpn_env.sh openvpn.conf
 
-  ovpn_genconfig -u tcp://169.254.32.1
+  ovpn_genconfig -u tcp://127.0.0.1
 
   perl -pe 's{^(#*\s*push\s+.*)$}{}i' -i openvpn.conf
 
@@ -11,7 +11,7 @@ function main {
     echo comp-lzo no
     echo "push \"comp-lzo no\""
 
-    echo "push \"dhcp-option DNS 169.254.32.1\""
+    echo "push \"dhcp-option DNS 172.31.101.53\""
     echo "push \"dhcp-option DOMAIN-SEARCH service.dc1.consul\""
   ) >> openvpn.conf
 }
