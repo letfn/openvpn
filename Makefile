@@ -1,34 +1,29 @@
 SHELL := /bin/bash
 
-.PHONY: docs
-
 menu:
 	@perl -ne 'printf("%10s: %s\n","$$1","$$2") if m{^([\w+-]+):[^#]+#\s(.+)$$}' Makefile
 
-all: # Run everything except build
-	$(MAKE) fmt
-	$(MAKE) lint
-	$(MAKE) docs
+build: # Build defn/openvpn
+	docker build -t defn/openvpn .
 
-fmt: # Format drone fmt
-	@echo
-	drone exec --pipeline $@
+push: # Push defn/openvpn
+	docker push defn/openvpn
 
-lint: # Run drone lint
-	@echo
-	drone exec --pipeline $@
+bash: # Run bash shell with defn/openvpn
+	docker run --rm -ti --entrypoint bash defn/openvpn
 
-docs: # Build docs
-	@echo
-	drone exec --pipeline $@
+clean:
+	docker-compose down --remove-orphans
 
-build: # Build container
-	@echo
-	drone exec --pipeline $@
+up:
+	docker-compose up -d --remove-orphans
 
-edit:
-	docker-compose -f docker-compose.docs.yml up --quiet-pull
+down:
+	docker-compose rm -f -s
 
-requirements:
-	@echo
-	drone exec --pipeline $@
+recreate:
+	$(MAKE) clean
+	$(MAKE) up
+
+logs:
+	docker-compose logs -f
