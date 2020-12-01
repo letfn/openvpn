@@ -2,7 +2,7 @@ FROM kylemanna/openvpn
 
 RUN apk add expect perl bind-tools
 
-COPY service-* /
+COPY bin/service-* /
 
 COPY service /service
 
