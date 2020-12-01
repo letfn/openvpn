@@ -7,7 +7,7 @@ services:
     cap_add:
     - NET_ADMIN
     ports:
-    - 127.0.0.1:1194:1194
+    - ${OPENVPN_IP:-127.0.0.1}:1194:1194
     volumes:
     - ./etc/openvpn:/etc/openvpn
     restart: always
