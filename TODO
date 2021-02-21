@@ -1,0 +1,5 @@
+rm -f ./mnt/openvpn/pki/reqs/defn.req
+rm -f ./mnt/openvpn/pki/private/defn.key
+rm -f ./mnt/openvpn/pki/issued/defn.crt
+docker-compose exec openvpn /service-init-client defn
+open ./mnt/openvpn/defn.ovpn
